@@ -1874,5 +1874,35 @@ Email: elodivedha@proton.me`);
   });
 </script>
 
+    <audio id="background-music" preload="auto" style="display:none;">
+  <source src="https://www.dropbox.com/scl/fi/h35pl7uhyxvck260ew6bx/V-05-0M.mp3?raw=1" type="audio/mpeg">
+</audio>
+
+    <script>
+  window.addEventListener('DOMContentLoaded', function() {
+    console.log("Setting up audio playback");
+    const audio = document.getElementById('background-music');
+    
+    // Play audio once on first user interaction
+    function playAudioOnce() {
+      console.log("Attempting to play audio");
+      if (audio && audio.paused) {
+        audio.play().then(() => {
+          console.log("Audio playing successfully");
+        }).catch(e => {
+          console.error("Audio play error:", e);
+        });
+      }
+      // Remove event listeners after first attempt
+      document.removeEventListener('click', playAudioOnce);
+      document.removeEventListener('keydown', playAudioOnce);
+    }
+    
+    // Add event listeners for user interaction
+    document.addEventListener('click', playAudioOnce);
+    document.addEventListener('keydown', playAudioOnce);
+  });
+</script>
+    
 </body>
 </html>
