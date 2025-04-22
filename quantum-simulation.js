@@ -50,7 +50,38 @@ class QuantumInteractiveSystem {
         // Enhanced command input
         this.enhanceCommandInput();
         
+        // Initialize audio playback
+        this.initializeAudio();
+        
         this.initialized = true;
+    }
+    
+    initializeAudio() {
+        // Handle background music
+        const backgroundMusic = document.getElementById('background-music');
+        if (backgroundMusic) {
+            // Make sure audio plays just once
+            backgroundMusic.addEventListener('ended', function() {
+                console.log('Music playback completed - one-time playback only');
+                // No loop, intentionally not restarting
+            });
+            
+            // Try playing on first user interaction
+            const playAttempt = function() {
+                if (backgroundMusic.paused) {
+                    backgroundMusic.play().catch(e => {
+                        console.log('Auto-play prevented by browser:', e);
+                    });
+                }
+                // Remove event listeners after first attempt
+                document.removeEventListener('click', playAttempt);
+                document.removeEventListener('keydown', playAttempt);
+            };
+            
+            // Listen for user interaction to start audio
+            document.addEventListener('click', playAttempt, { once: true });
+            document.addEventListener('keydown', playAttempt, { once: true });
+        }
     }
     
     createQuantumCanvas() {
