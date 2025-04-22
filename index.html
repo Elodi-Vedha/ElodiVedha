@@ -1777,5 +1777,102 @@ Email: elodivedha@proton.me`);
             updateButtonStates();
         });
     </script>
+
+<script>
+  // Wait for DOM to be fully loaded
+  document.addEventListener('DOMContentLoaded', function() {
+    console.log("DOM fully loaded");
+    
+    // Get carousel elements
+    const carouselSlides = document.querySelectorAll('.carousel-slide');
+    const prevButtons = document.querySelectorAll('.prev-btn');
+    const nextButtons = document.querySelectorAll('.next-btn');
+    
+    console.log("Found slides:", carouselSlides.length);
+    console.log("Found prev buttons:", prevButtons.length);
+    console.log("Found next buttons:", nextButtons.length);
+    
+    // Make sure we have slides
+    if (carouselSlides.length === 0) {
+      console.error("No carousel slides found!");
+      return;
+    }
+    
+    // Initialize current slide index
+    let currentSlideIndex = 0;
+    
+    // Simple navigation function
+    function navigateCarousel(direction) {
+      console.log("Navigating:", direction);
+      
+      // Remove active class from current slide
+      carouselSlides[currentSlideIndex].classList.remove('active');
+      
+      if (direction === 'next') {
+        // Add prev class to current slide
+        carouselSlides[currentSlideIndex].classList.add('prev');
+        
+        // Update index
+        currentSlideIndex = (currentSlideIndex + 1) % carouselSlides.length;
+      } else {
+        // Remove prev class from current slide
+        carouselSlides[currentSlideIndex].classList.remove('prev');
+        
+        // Update index
+        currentSlideIndex = (currentSlideIndex - 1 + carouselSlides.length) % carouselSlides.length;
+      }
+      
+      // Remove prev class from new current slide
+      carouselSlides[currentSlideIndex].classList.remove('prev');
+      
+      // Add active class to new current slide
+      carouselSlides[currentSlideIndex].classList.add('active');
+      
+      // Update button states
+      updateButtonStates();
+      
+      console.log("New current slide index:", currentSlideIndex);
+    }
+    
+    // Update button states based on current slide
+    function updateButtonStates() {
+      // Enable all buttons first
+      prevButtons.forEach(button => button.disabled = false);
+      nextButtons.forEach(button => button.disabled = false);
+      
+      // Disable prev button on first slide
+      if (currentSlideIndex === 0) {
+        prevButtons.forEach(button => button.disabled = true);
+      }
+      
+      // Disable next button on last slide
+      if (currentSlideIndex === carouselSlides.length - 1) {
+        nextButtons.forEach(button => button.disabled = true);
+      }
+    }
+    
+    // Add event listeners to buttons
+    prevButtons.forEach(button => {
+      console.log("Adding prev button listener");
+      button.addEventListener('click', function(e) {
+        e.preventDefault();
+        navigateCarousel('prev');
+      });
+    });
+    
+    nextButtons.forEach(button => {
+      console.log("Adding next button listener");
+      button.addEventListener('click', function(e) {
+        e.preventDefault();
+        navigateCarousel('next');
+      });
+    });
+    
+    // Initialize button states
+    updateButtonStates();
+    console.log("Navigation initialized");
+  });
+</script>
+
 </body>
 </html>
