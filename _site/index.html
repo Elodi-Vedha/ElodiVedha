@@ -1,0 +1,1353 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Élodi Vedha DONNADIEU | Quantum Funhouse Resume</title>
+    <style>
+        :root {
+            --primary-pink: #ff69b4;
+            --primary-red: #ff3366;
+            --accent-white: #ffffff;
+            --bg-black: #000000;
+            --quantum-glow: 0 0 10px var(--primary-pink);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Roboto Mono', 'IBM Plex Mono', 'SF Mono', 'JetBrains Mono', monospace;
+        }
+        
+        @import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300;400;500;700&display=swap');
+
+        body {
+            background-color: var(--bg-black);
+            color: var(--primary-pink);
+            overflow-x: hidden;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .terminal-container {
+            width: 90%;
+            max-width: 1000px;
+            height: 90vh;
+            border: 2px solid var(--primary-pink);
+            border-radius: 10px;
+            box-shadow: var(--quantum-glow);
+            padding: 20px;
+            overflow: hidden;
+            position: relative;
+            background-color: rgba(0, 0, 0, 0.9);
+        }
+
+        .terminal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            border-bottom: 1px solid var(--primary-pink);
+            padding-bottom: 10px;
+        }
+
+        .terminal-title {
+            color: var(--primary-pink);
+            font-size: 1.5rem;
+            text-shadow: var(--quantum-glow);
+        }
+
+        .terminal-buttons {
+            display: flex;
+            gap: 8px;
+        }
+
+        .terminal-button {
+            width: 15px;
+            height: 15px;
+            border-radius: 50%;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .terminal-button.red { background-color: var(--primary-red); }
+        .terminal-button.yellow { background-color: yellow; }
+        .terminal-button.green { background-color: green; }
+
+        .carousel-container {
+            height: calc(100% - 60px);
+            width: 100%;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .carousel-slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            transform: translateX(100%);
+            transition: all 0.8s cubic-bezier(0.645, 0.045, 0.355, 1);
+            padding: 20px;
+            overflow-y: auto;
+            scrollbar-width: thin;
+            scrollbar-color: var(--primary-pink) var(--bg-black);
+        }
+
+        .carousel-slide.active {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .carousel-slide.prev {
+            transform: translateX(-100%);
+        }
+
+        .section-title {
+            color: var(--primary-red);
+            font-size: 2rem;
+            margin-bottom: 20px;
+            text-shadow: var(--quantum-glow);
+            text-align: center;
+        }
+
+        .quantum-text {
+            color: var(--accent-white);
+            font-size: 1.2rem;
+            line-height: 1.6;
+            margin-bottom: 20px;
+            text-shadow: 0 0 5px var(--accent-white);
+        }
+
+        .quantum-highlight {
+            color: var(--primary-pink);
+            font-weight: bold;
+            text-shadow: var(--quantum-glow);
+        }
+
+        .command-input {
+            background-color: transparent;
+            border: none;
+            border-bottom: 1px solid var(--primary-pink);
+            color: var(--accent-white);
+            font-size: 1.2rem;
+            padding: 5px 10px;
+            width: 100%;
+            margin-top: 20px;
+            outline: none;
+        }
+
+        .command-input::placeholder {
+            color: rgba(255, 105, 180, 0.5);
+        }
+
+        .command-input:focus {
+            box-shadow: var(--quantum-glow);
+        }
+
+        .nav-controls {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+            margin-top: 20px;
+        }
+
+        .nav-btn {
+            background-color: transparent;
+            color: var(--primary-pink);
+            border: 1px solid var(--primary-pink);
+            padding: 8px 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border-radius: 5px;
+        }
+
+        .nav-btn:hover {
+            background-color: var(--primary-pink);
+            color: var(--bg-black);
+            box-shadow: var(--quantum-glow);
+        }
+
+        .project-card {
+            border: 1px solid var(--primary-pink);
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 20px;
+            background-color: rgba(255, 105, 180, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .project-card:hover {
+            box-shadow: var(--quantum-glow);
+            transform: translateY(-5px);
+        }
+
+        .project-title {
+            color: var(--primary-red);
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+        }
+
+        .project-description {
+            color: var(--accent-white);
+            margin-bottom: 15px;
+        }
+
+        .project-link {
+            color: var(--primary-pink);
+            text-decoration: none;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+
+        .project-link:hover {
+            text-shadow: var(--quantum-glow);
+        }
+
+        .skills-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .skill-badge {
+            background-color: rgba(255, 105, 180, 0.2);
+            border: 1px solid var(--primary-pink);
+            border-radius: 20px;
+            padding: 8px 15px;
+            color: var(--accent-white);
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+        }
+
+        .skill-badge:hover {
+            background-color: var(--primary-pink);
+            color: var(--bg-black);
+            box-shadow: var(--quantum-glow);
+        }
+
+        .social-links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-top: 20px;
+            justify-content: center;
+        }
+
+        .social-link {
+            color: var(--accent-white);
+            text-decoration: none;
+            padding: 8px 15px;
+            border: 1px solid var(--primary-pink);
+            border-radius: 5px;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+        }
+
+        .social-link:hover {
+            background-color: var(--primary-pink);
+            color: var(--bg-black);
+            box-shadow: var(--quantum-glow);
+        }
+
+        /* Quantum particles effect */
+        .quantum-particles {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .particle {
+            position: absolute;
+            background-color: var(--primary-pink);
+            border-radius: 50%;
+            opacity: 0;
+            animation: float 15s linear infinite;
+        }
+
+        @keyframes float {
+            0% {
+                opacity: 0;
+                transform: translateY(0) translateX(0) scale(0);
+            }
+            10% {
+                opacity: 0.8;
+            }
+            90% {
+                opacity: 0.2;
+            }
+            100% {
+                opacity: 0;
+                transform: translateY(-100px) translateX(100px) scale(1);
+            }
+        }
+
+        /* Terminal typing effect */
+        .typing-effect {
+            overflow: hidden;
+            border-right: 2px solid var(--primary-pink);
+            white-space: nowrap;
+            margin: 0 auto;
+            animation: typing 3.5s steps(40, end), blink-caret 0.75s step-end infinite;
+        }
+
+        @keyframes typing {
+            from { width: 0 }
+            to { width: 100% }
+        }
+
+        @keyframes blink-caret {
+            from, to { border-color: transparent }
+            50% { border-color: var(--primary-pink) }
+        }
+
+        /* Code display styling */
+        .code-display {
+            background-color: rgba(30, 30, 30, 0.8);
+            border-radius: 5px;
+            padding: 15px;
+            margin: 15px 0;
+            overflow-x: auto;
+            border-left: 3px solid var(--primary-pink);
+        }
+
+        .code-display code {
+            color: var(--accent-white);
+            font-family: 'Courier New', monospace;
+            line-height: 1.5;
+        }
+
+        /* For the quantum relationship diagram */
+        .quantum-diagram {
+            width: 100%;
+            height: 300px;
+            margin: 20px 0;
+            border: 1px solid var(--primary-pink);
+            border-radius: 8px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .node {
+            position: absolute;
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: rgba(255, 105, 180, 0.2);
+            border: 2px solid var(--primary-pink);
+            color: var(--accent-white);
+            font-size: 0.8rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .node:hover {
+            box-shadow: var(--quantum-glow);
+            transform: scale(1.1);
+            z-index: 10;
+        }
+
+        .connection {
+            position: absolute;
+            height: 2px;
+            background-color: var(--primary-pink);
+            transform-origin: left center;
+            z-index: -1;
+            opacity: 0.6;
+        }
+
+        /* Experience timeline */
+        .timeline {
+            position: relative;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .timeline::after {
+            content: '';
+            position: absolute;
+            width: 2px;
+            background-color: var(--primary-pink);
+            top: 0;
+            bottom: 0;
+            left: 50%;
+            margin-left: -1px;
+        }
+
+        .timeline-item {
+            padding: 10px 40px;
+            position: relative;
+            width: 50%;
+            box-sizing: border-box;
+            margin-bottom: 20px;
+        }
+
+        .timeline-item::after {
+            content: '';
+            position: absolute;
+            width: 15px;
+            height: 15px;
+            background-color: var(--primary-pink);
+            border-radius: 50%;
+            top: 15px;
+            z-index: 1;
+        }
+
+        .timeline-left {
+            left: 0;
+            text-align: right;
+        }
+
+        .timeline-right {
+            left: 50%;
+            text-align: left;
+        }
+
+        .timeline-left::after {
+            right: -7.5px;
+        }
+
+        .timeline-right::after {
+            left: -7.5px;
+        }
+
+        .timeline-content {
+            padding: 15px;
+            background-color: rgba(255, 105, 180, 0.1);
+            border: 1px solid var(--primary-pink);
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .timeline-content:hover {
+            box-shadow: var(--quantum-glow);
+            transform: translateY(-5px);
+        }
+
+        .timeline-date {
+            color: var(--primary-red);
+            font-weight: bold;
+        }
+
+        /* Contact section */
+        .contact-section {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .contact-form {
+            max-width: 500px;
+            margin: 0 auto;
+            background-color: rgba(255, 105, 180, 0.1);
+            border: 1px solid var(--primary-pink);
+            border-radius: 8px;
+            padding: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+            text-align: left;
+        }
+
+        .form-label {
+            display: block;
+            color: var(--primary-pink);
+            margin-bottom: 5px;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 10px;
+            background-color: rgba(0, 0, 0, 0.5);
+            border: 1px solid var(--primary-pink);
+            border-radius: 5px;
+            color: var(--accent-white);
+            font-family: inherit;
+            transition: all 0.3s ease;
+        }
+
+        .form-input:focus {
+            outline: none;
+            box-shadow: var(--quantum-glow);
+        }
+
+        .submit-btn {
+            background-color: transparent;
+            color: var(--primary-pink);
+            border: 1px solid var(--primary-pink);
+            padding: 10px 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border-radius: 5px;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+
+        .submit-btn:hover {
+            background-color: var(--primary-pink);
+            color: var(--bg-black);
+            box-shadow: var(--quantum-glow);
+        }
+
+        /* Command suggestions styling */
+        .command-suggestions {
+            background-color: rgba(0, 0, 0, 0.9);
+            border: 1px solid var(--primary-pink);
+            border-top: none;
+            max-height: 150px;
+            overflow-y: auto;
+            width: 100%;
+            position: absolute;
+            z-index: 10;
+        }
+
+        .command-suggestion {
+            padding: 5px 10px;
+            color: var(--primary-pink);
+            cursor: pointer;
+        }
+
+        .command-suggestion:hover, 
+        .command-suggestion.active {
+            background-color: rgba(255, 105, 180, 0.3);
+        }
+
+        /* Media queries for responsiveness */
+        @media screen and (max-width: 768px) {
+            .terminal-container {
+                width: 95%;
+                height: 95vh;
+            }
+
+            .section-title {
+                font-size: 1.5rem;
+            }
+
+            .quantum-text {
+                font-size: 1rem;
+            }
+            
+            .timeline::after {
+                left: 31px;
+            }
+            
+            .timeline-item {
+                width: 100%;
+                padding-left: 70px;
+                padding-right: 25px;
+                text-align: left;
+            }
+            
+            .timeline-left::after, .timeline-right::after {
+                left: 23px;
+            }
+            
+            .timeline-left, .timeline-right {
+                left: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="terminal-container">
+        <div class="terminal-header">
+            <div class="terminal-buttons">
+                <div class="terminal-button red"></div>
+                <div class="terminal-button yellow"></div>
+                <div class="terminal-button green"></div>
+            </div>
+            <div class="terminal-title">élodi-vedha@quantum-realm:~$</div>
+        </div>
+
+        <div class="carousel-container">
+            <!-- Introduction Section -->
+            <div class="carousel-slide active" id="intro">
+                <h2 class="section-title typing-effect">Welcome to Quantum Space</h2>
+                <p class="typing-effect text-accent-white text-lg mb-5">
+                    Initializing Quantum Terminal... Connection Established.
+                </p>
+                
+                <div class="quantum-text">
+                    <p class="mb-4">I am <span class="quantum-highlight">Élodi Vedha</span> DONNADIEU, a quantum researcher and bioinformatics specialist operating at the intersection of technology and biology.</p>
+                    
+                    <div class="bg-primary-pink/10 border border-primary-pink rounded-lg p-4 mb-6" style="background-color: rgba(255, 105, 180, 0.1); border: 1px solid #ff69b4; border-radius: 8px; padding: 16px; margin-bottom: 24px;">
+                        <p class="mb-2"><span style="color: #ff69b4;">$</span> As a quick thinker and fast learner, I stand out in my capability to both follow and take lead. Solutions-oriented, I am defined by my problem-solving abilities; my determination knows no impossible tasks.</p>
+                        <p><span style="color: #ff69b4;">$</span> Biology is my first love and I have a growing fascination with the fields of DNA science and bioinformatics. Though an avid reader and writer, I am definitely a kinaesthetic learner and prefer a hands-on approach.</p>
+                    </div>
+                    
+                    <p class="mb-4">Navigate through this quantum terminal to explore different dimensions of my professional universe.</p>
+                    
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 32px;">
+                        <div style="border: 1px solid #ff69b4; border-radius: 8px; padding: 16px; transition: all 0.3s ease; cursor: pointer;" 
+                            class="nav-card" data-goto="experience">
+                            <h3 style="color: #ff3366; font-size: 1.25rem; margin-bottom: 8px;">⚛️ Quantum Experience</h3>
+                            <p>Explore my professional timeline and work history</p>
+                        </div>
+                        
+                        <div style="border: 1px solid #ff69b4; border-radius: 8px; padding: 16px; transition: all 0.3s ease; cursor: pointer;" 
+                            class="nav-card" data-goto="skills">
+                            <h3 style="color: #ff3366; font-size: 1.25rem; margin-bottom: 8px;">🧬 Biotech Skills</h3>
+                            <p>Discover my technical and scientific capabilities</p>
+                        </div>
+                        
+                        <div style="border: 1px solid #ff69b4; border-radius: 8px; padding: 16px; transition: all 0.3s ease; cursor: pointer;" 
+                            class="nav-card" data-goto="projects">
+                            <h3 style="color: #ff3366; font-size: 1.25rem; margin-bottom: 8px;">🔬 Research Projects</h3>
+                            <p>View my notable works and contributions</p>
+                        </div>
+                        
+                        <div style="border: 1px solid #ff69b4; border-radius: 8px; padding: 16px; transition: all 0.3s ease; cursor: pointer;" 
+                            class="nav-card" data-goto="quantum">
+                            <h3 style="color: #ff3366; font-size: 1.25rem; margin-bottom: 8px;">🌌 Quantum Theories</h3>
+                            <p>Dive into my research philosophies</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div style="margin-top: 24px;">
+                    <p style="color: #ff69b4; margin-bottom: 8px;">Enter a command to navigate:</p>
+                    <div style="display: flex;">
+                        <span style="color: #ff3366; margin-right: 8px;">$</span>
+                        <input 
+                            type="text" 
+                            class="command-input" 
+                            placeholder="Try: help, goto experience, goto skills..."
+                        />
+                    </div>
+                </div>
+                
+                <div class="nav-controls">
+                    <button class="nav-btn" data-goto="quantum">Quantum</button>
+                    <button class="nav-btn" data-goto="experience">Experience</button>
+                </div>
+            </div>
+
+            <!-- Experience Section -->
+            <div class="carousel-slide" id="experience">
+                <h2 class="section-title">Professional Timeline</h2>
+                
+                <div class="quantum-text">
+                    <p class="mb-6">Exploring the quantum fluctuations of my career trajectory...</p>
+                    
+                    <!-- Timeline -->
+                    <div class="relative border-l-2 border-primary-pink pl-8 ml-4 mt-8" style="position: relative; border-left: 2px solid #ff69b4; padding-left: 32px; margin-left: 16px; margin-top: 32px;">
+                        <!-- Mind-Body Wellness Mediator -->
+                        <div class="mb-10 relative" style="margin-bottom: 40px; position: relative;">
+                            <div style="position: absolute; left: -40px; width: 24px; height: 24px; background-color: #ff69b4; border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+                                <div style="width: 12px; height: 12px; background-color: #000000; border-radius: 50%;"></div>
+                            </div>
+                            <div style="border: 1px solid #ff69b4; border-radius: 8px; padding: 16px; background-color: rgba(255, 105, 180, 0.1);">
+                                <h3 style="font-size: 1.5rem; color: #ff3366;">Mind-Body Wellness Mediator</h3>
+                                <h4 style="color: #ff69b4; margin-bottom: 8px;">V's Teas, Tinctures, and Tonics | April 2019 - 2021</h4>
+                                <ul style="list-style-type: disc; padding-left: 20px; font-size: 0.875rem; margin-top: 8px;">
+                                    <li style="margin-bottom: 8px;">Mediated the connection between mind and body for those seeking a holistic approach to their physical health and mental well-being</li>
+                                    <li style="margin-bottom: 8px;">Demonstrated knowledge of herbs and natural medicine to provide treatments for a variety of symptoms</li>
+                                    <li style="margin-bottom: 8px;">Relieved symptoms through guided meditation, breath work, and postural correction</li>
+                                    <li style="margin-bottom: 8px;">Developed custom formulations based on client needs and feedback</li>
+                                    <li>Conducted workshops on holistic health practices</li>
+                                </ul>
+                            </div>
+                        </div>
+                        
+                        <!-- Research Assistant -->
+                        <div class="mb-10 relative" style="margin-bottom: 40px; position: relative;">
+                            <div style="position: absolute; left: -40px; width: 24px; height: 24px; background-color: #ff69b4; border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+                                <div style="width: 12px; height: 12px; background-color: #000000; border-radius: 50%;"></div>
+                            </div>
+                            <div style="border: 1px solid #ff69b4; border-radius: 8px; padding: 16px; background-color: rgba(255, 105, 180, 0.1);">
+                                <h3 style="font-size: 1.5rem; color: #ff3366;">Research Assistant</h3>
+                                <h4 style="color: #ff69b4; margin-bottom: 8px;">Dr. Sarah Melanson | August 2016 - July 2019</h4>
+                                <ul style="list-style-type: disc; padding-left: 20px; font-size: 0.875rem; margin-top: 8px;">
+                                    <li style="margin-bottom: 8px;">Located, reviewed, and compiled data through graphs, charts, and short articles for various research topics</li>
+                                    <li style="margin-bottom: 8px;">Maintained email correspondence with research partners and stakeholders</li>
+                                    <li style="margin-bottom: 8px;">Edited prepared materials for publication and presentations</li>
+                                    <li style="margin-bottom: 8px;">Assisted in laboratory procedures and data collection</li>
+                                    <li>Contributed to research design and methodology refinement</li>
+                                </ul>
+                            </div>
+                        </div>
+                        
+                        <!-- Laboratory Aide -->
+                        <div class="mb-10 relative" style="margin-bottom: 40px; position: relative;">
+                            <div style="position: absolute; left: -40px; width: 24px; height: 24px; background-color: #ff69b4; border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+                                <div style="width: 12px; height: 12px; background-color: #000000; border-radius: 50%;"></div>
+                            </div>
+                            <div style="border: 1px solid #ff69b4; border-radius: 8px; padding: 16px; background-color: rgba(255, 105, 180, 0.1);">
+                                <h3 style="font-size: 1.5rem; color: #ff3366;">Laboratory Aide</h3>
+                                <h4 style="color: #ff69b4; margin-bottom: 8px;">City College of San Francisco | September 2018 - January 2019</h4>
+                                <ul style="list-style-type: disc; padding-left: 20px; font-size: 0.875rem; margin-top: 8px;">
+                                    <li style="margin-bottom: 8px;">Followed written protocols to transform, extract, purify, and clone plasmid DNA</li>
+                                    <li style="margin-bottom: 8px;">Frequently worked in a laboratory hood and employed aseptic techniques</li>
+                                    <li style="margin-bottom: 8px;">Verified results with Nanodrop Spectrophotometer or restriction enzyme digestion via Benchling</li>
+                                    <li style="margin-bottom: 8px;">Maintained laboratory equipment and prepared solutions</li>
+                                    <li>Assisted students with experimental procedures</li>
+                                </ul>
+                            </div>
+                        </div>
+                        
+                        <!-- Education -->
+                        <div class="relative" style="position: relative;">
+                            <div style="position: absolute; left: -40px; width: 24px; height: 24px; background-color: #ff69b4; border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+                                <div style="width: 12px; height: 12px; background-color: #000000; border-radius: 50%;"></div>
+                            </div>
+                            <div style="border: 1px solid #ff69b4; border-radius: 8px; padding: 16px; background-color: rgba(255, 105, 180, 0.1);">
+                                <h3 style="font-size: 1.5rem; color: #ff3366;">Education</h3>
+                                <h4 style="color: #ff69b4; margin-bottom: 8px;">Mechanical Engineering | City College of San Francisco | August 2018 - Present</h4>
+                                <p style="font-size: 0.875rem;">Pursuing an engineering degree with a focus in biotechnology and bioengineering.</p>
+                                <p style="font-size: 0.875rem; margin-top: 8px;">Key areas of study:</p>
+                                <ul style="list-style-type: disc; padding-left: 20px; font-size: 0.875rem; margin-top: 8px;">
+                                    <li style="margin-bottom: 4px;">Biomechanical Systems</li>
+                                    <li style="margin-bottom: 4px;">Genetic Engineering Principles</li>
+                                    <li style="margin-bottom: 4px;">Cellular Mechanics</li>
+                                    <li style="margin-bottom: 4px;">Quantum Biology Theory</li>
+                                    <li>Advanced Laboratory Techniques</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div style="margin-top: 24px;">
+                    <p style="color: #ff69b4; margin-bottom: 8px;">Enter a command to navigate:</p>
+                    <div style="display: flex;">
+                        <span style="color: #ff3366; margin-right: 8px;">$</span>
+                        <input 
+                            type="text" 
+                            class="command-input" 
+                            placeholder="Try: goto skills, goto intro..."
+                        />
+                    </div>
+                </div>
+                
+                <div class="nav-controls">
+                    <button class="nav-btn" data-goto="intro">Intro</button>
+                    <button class="nav-btn" data-goto="skills">Skills</button>
+                </div>
+            </div>
+
+            <!-- Skills Section -->
+            <div class="carousel-slide" id="skills">
+                <h2 class="section-title">Quantum Skillset</h2>
+                
+                <div class="quantum-text">
+                    <p class="mb-6">Mapping the probability distribution of my technical capabilities...</p>
+                    
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 24px;">
+                        <!-- Proficient Skills -->
+                        <div style="border: 1px solid #ff69b4; border-radius: 8px; padding: 20px; background-color: rgba(255, 105, 180, 0.05);">
+                            <h3 style="font-size: 1.25rem; color: #ff3366; margin-bottom: 16px;">Proficient Skills</h3>
+                            <p style="font-size: 0.875rem; margin-bottom: 12px; color: #ff69b4;">High probability of expertise observation</p>
+                            
+                            <div style="display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 16px;">
+                                <span class="skill-badge">Microsoft Office</span>
+                                <span class="skill-badge">Adobe InDesign</span>
+                                <span class="skill-badge">Adobe Premiere</span>
+                                <span class="skill-badge">Prezi</span>
+                                <span class="skill-badge">WordPress</span>
+                                <span class="skill-badge">Google Drive</span>
+                                <span class="skill-badge">Benchling</span>
+                                <span class="skill-badge">NCBI-NIH</span>
+                                <span class="skill-badge">Nanodrop Spectrophotometer</span>
+                                <span class="skill-badge">PCR</span>
+                                <span class="skill-badge">Cell Culture</span>
+                                <span class="skill-badge">Reading and Writing SOPs</span>
+                            </div>
+                            
+                            <div style="width: 100%; background-color: #333; border-radius: 9999px; height: 4px; margin-bottom: 16px;">
+                                <div style="background-color: #ff69b4; height: 4px; border-radius: 9999px; width: 90%;"></div>
+                            </div>
+                        </div>
+                        
+                        <!-- Passable Skills -->
+                        <div style="border: 1px solid #ff69b4; border-radius: 8px; padding: 20px; background-color: rgba(255, 105, 180, 0.05);">
+                            <h3 style="font-size: 1.25rem; color: #ff3366; margin-bottom: 16px;">Passable Skills</h3>
+                            <p style="font-size: 0.875rem; margin-bottom: 12px; color: #ff69b4;">Moderate probability of expertise observation</p>
+                            
+                            <div style="display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 16px;">
+                                <span class="skill-badge">American Sign Language</span>
+                                <span class="skill-badge">UCSC Genome Browser</span>
+                                <span class="skill-badge">ELISA</span>
+                                <span class="skill-badge">Laboratory Documentation</span>
+                                <span class="skill-badge">Research Design</span>
+                            </div>
+                            
+                            <div style="width: 100%; background-color: #333; border-radius: 9999px; height: 4px; margin-bottom: 16px;">
+                                <div style="background-color: #ff69b4; height: 4px; border-radius: 9999px; width: 70%;"></div>
+                            </div>
+                        </div>
+                        
+                        <!-- Growing Skills -->
+                        <div style="border: 1px solid #ff69b4; border-radius: 8px; padding: 20px; background-color: rgba(255, 105, 180, 0.05);">
+                            <h3 style="font-size: 1.25rem; color: #ff3366; margin-bottom: 16px;">Growing Skills</h3>
+                            <p style="font-size: 0.875rem; margin-bottom: 12px; color: #ff69b4;">Emerging probability of expertise observation</p>
+                            
+                            <div style="display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 16px;">
+                                <span class="skill-badge">French</span>
+                                <span class="skill-badge">Spanish</span>
+                                <span class="skill-badge">Uniprot</span>
+                                <span class="skill-badge">Swiss-Model protein modelling</span>
+                                <span class="skill-badge">Quantum Computing Concepts</span>
+                                <span class="skill-badge">Bioinformatics</span>
+                            </div>
+                            
+                            <div style="width: 100%; background-color: #333; border-radius: 9999px; height: 4px; margin-bottom: 16px;">
+                                <div style="background-color: #ff69b4; height: 4px; border-radius: 9999px; width: 40%;"></div>
+                            </div>
+                        </div>
+                        
+                        <!-- Quantum Diagram -->
+                        <div style="border: 1px solid #ff69b4; border-radius: 8px; padding: 20px; background-color: rgba(255, 105, 180, 0.05);">
+                            <h3 style="font-size: 1.25rem; color: #ff3366; margin-bottom: 16px;">Skill Interconnections</h3>
+                            <p style="font-size: 0.875rem; margin-bottom: 16px; color: #ff69b4;">Quantum entanglement of capabilities</p>
+                            
+                            <div class="quantum-diagram" style="height: 192px; border: 1px solid #ff69b4; border-radius: 8px; position: relative; overflow: hidden;" id="skill-diagram">
+                                <!-- Generated dynamically by JavaScript -->
+                            </div>
+                            
+                            <p style="font-size: 0.75rem; margin-top: 12px; color: rgba(255, 255, 255, 0.7); text-align: center;">Click on the diagram to observe quantum interactions</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Special abilities section -->
+                    <div style="margin-top: 32px; border: 1px solid #ff69b4; border-radius: 8px; padding: 20px; background-color: rgba(255, 105, 180, 0.05);">
+                        <h3 style="font-size: 1.25rem; color: #ff3366; margin-bottom: 16px;">Special Abilities</h3>
+                        
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+                            <div style="border: 1px solid rgba(255, 105, 180, 0.5); border-radius: 4px; padding: 12px;">
+                                <h4 style="color: #ff69b4; margin-bottom: 8px;">Fast Learner</h4>
+                                <p style="font-size: 0.875rem;">Quickly adapts to new paradigms and technologies with minimal training time</p>
+                            </div>
+                            
+                            <div style="border: 1px solid rgba(255, 105, 180, 0.5); border-radius: 4px; padding: 12px;">
+                                <h4 style="color: #ff69b4; margin-bottom: 8px;">Problem Solver</h4>
+                                <p style="font-size: 0.875rem;">Approaches complex challenges with creative solutions and determination</p>
+                            </div>
+                            
+                            <div style="border: 1px solid rgba(255, 105, 180, 0.5); border-radius: 4px; padding: 12px;">
+                                <h4 style="color: #ff69b4; margin-bottom: 8px;">Kinesthetic Learner</h4>
+                                <p style="font-size: 0.875rem;">Excels in hands-on learning environments and practical applications</p>
+                            </div>
+                            
+                            <div style="border: 1px solid rgba(255, 105, 180, 0.5); border-radius: 4px; padding: 12px;">
+                                <h4 style="color: #ff69b4; margin-bottom: 8px;">Scientific Communication</h4>
+                                <p style="font-size: 0.875rem;">Effectively translates complex scientific concepts for various audiences</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div style="margin-top: 24px;">
+                    <p style="color: #ff69b4; margin-bottom: 8px;">Enter a command to navigate:</p>
+                    <div style="display: flex;">
+                        <span style="color: #ff3366; margin-right: 8px;">$</span>
+                        <input 
+                            type="text" 
+                            class="command-input" 
+                            placeholder="Try: goto projects, goto experience..."
+                        />
+                    </div>
+                </div>
+                
+                <div class="nav-controls">
+                    <button class="nav-btn" data-goto="experience">Experience</button>
+                    <button class="nav-btn" data-goto="projects">Projects</button>
+                </div>
+            </div>
+
+            <!-- Projects Section -->
+            <div class="carousel-slide" id="projects">
+                <h2 class="section-title">Quantum Research Projects</h2>
+                
+                <div class="quantum-text">
+                    <p class="mb-6">Exploring the superposition of my project portfolio...</p>
+                    
+                    <!-- Projects Grid -->
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 24px;">
+                        <!-- DNA Extraction Optimization -->
+                        <div class="project-card">
+                            <h3 style="font-size: 1.25rem; color: #ff3366; margin-bottom: 8px;">DNA Extraction Optimization</h3>
+                            <p style="font-size: 0.875rem; color: #ffffff; margin-bottom: 16px;">Developed improved protocols for plasmid DNA extraction, increasing yield by 35% while reducing contamination.</p>
+                            
+                            <div style="display: flex; gap: 8px; margin-bottom: 16px; flex-wrap: wrap;">
+                                <span style="font-size: 0.75rem; background-color: rgba(255, 105, 180, 0.2); padding: 4px 8px; border-radius: 9999px;">PCR</span>
+                                <span style="font-size: 0.75rem; background-color: rgba(255, 105, 180, 0.2); padding: 4px 8px; border-radius: 9999px;">Nanodrop</span>
+                                <span style="font-size: 0.75rem; background-color: rgba(255, 105, 180, 0.2); padding: 4px 8px; border-radius: 9999px;">Benchling</span>
+                            </div>
+                            
+                            <a href="#" style="color: #ff69b4; text-decoration: none; font-size: 0.875rem;" class="project-link" data-demo="dna-extraction">View Research Notes</a>
+                        </div>
+                        
+                        <!-- Holistic Wellness Research -->
+                        <div class="project-card">
+                            <h3 style="font-size: 1.25rem; color: #ff3366; margin-bottom: 8px;">Holistic Wellness Research</h3>
+                            <p style="font-size: 0.875rem; color: #ffffff; margin-bottom: 16px;">Conducted a study on the effects of herbal formulations on stress reduction, analyzing biomarkers and subjective responses.</p>
+                            
+                            <div style="display: flex; gap: 8px; margin-bottom: 16px; flex-wrap: wrap;">
+                                <span style="font-size: 0.75rem; background-color: rgba(255, 105, 180, 0.2); padding: 4px 8px; border-radius: 9999px;">Data Analysis</span>
+                                <span style="font-size: 0.75rem; background-color: rgba(255, 105, 180, 0.2); padding: 4px 8px; border-radius: 9999px;">Survey Design</span>
+                                <span style="font-size: 0.75rem; background-color: rgba(255, 105, 180, 0.2); padding: 4px 8px; border-radius: 9999px;">Biomarker Testing</span>
+                            </div>
+                            
+                            <a href="#" style="color: #ff69b4; text-decoration: none; font-size: 0.875rem;" class="project-link" data-demo="wellness">View Research Paper</a>
+                        </div>
+                        
+                        <!-- Protein Modeling Analysis -->
+                        <div class="project-card">
+                            <h3 style="font-size: 1.25rem; color: #ff3366; margin-bottom: 8px;">Protein Modeling Analysis</h3>
+                            <p style="font-size: 0.875rem; color: #ffffff; margin-bottom: 16px;">Used Swiss-Model to analyze protein structures related to cellular stress response, identifying potential therapeutic targets.</p>
+                            
+                            <div style="display: flex; gap: 8px; margin-bottom: 16px; flex-wrap: wrap;">
+                                <span style="font-size: 0.75rem; background-color: rgba(255, 105, 180, 0.2); padding: 4px 8px; border-radius: 9999px;">Swiss-Model</span>
+                                <span style="font-size: 0.75rem; background-color: rgba(255, 105, 180, 0.2); padding: 4px 8px; border-radius: 9999px;">Uniprot</span>
+                                <span style="font-size: 0.75rem; background-color: rgba(255, 105, 180, 0.2); padding: 4px 8px; border-radius: 9999px;">Structural Biology</span>
+                            </div>
+                            
+                            <a href="#" style="color: #ff69b4; text-decoration: none; font-size: 0.875rem;" class="project-link" data-demo="protein">View 3D Models</a>
+                        </div>
+                        
+                        <!-- GutMate Microbiome Project -->
+                        <div class="project-card">
+                            <h3 style="font-size: 1.25rem; color: #ff3366; margin-bottom: 8px;">GutMate Microbiome Project</h3>
+                            <p style="font-size: 0.875rem; color: #ffffff; margin-bottom: 16px;">Analyzed microbiome data to establish connections between gut health and mental wellness, developing personalized protocols.</p>
+                            
+                            <div style="display: flex; gap: 8px; margin-bottom: 16px; flex-wrap: wrap;">
+                                <span style="font-size: 0.75rem; background-color: rgba(255, 105, 180, 0.2); padding: 4px 8px; border-radius: 9999px;">Bioinformatics</span>
+                                <span style="font-size: 0.75rem; background-color: rgba(255, 105, 180, 0.2); padding: 4px 8px; border-radius: 9999px;">Data Visualization</span>
+                                <span style="font-size: 0.75rem; background-color: rgba(255, 105, 180, 0.2); padding: 4px 8px; border-radius: 9999px;">Health Research</span>
+                            </div>
+                            
+                            <a href="#" style="color: #ff69b4; text-decoration: none; font-size: 0.875rem;" class="project-link" data-demo="gutmate">Run Demo</a>
+                        </div>
+                        
+                        <!-- SOSA Environmental Research -->
+                        <div class="project-card">
+                            <h3 style="font-size: 1.25rem; color: #ff3366; margin-bottom: 8px;">SOSA Environmental Research</h3>
+                            <p style="font-size: 0.875rem; color: #ffffff; margin-bottom: 16px;">Contributed to sustainable organic agriculture research, focusing on soil microbiology and natural pest management.</p>
+                            
+                            <div style="display: flex; gap: 8px; margin-bottom: 16px; flex-wrap: wrap;">
+                                <span style="font-size: 0.75rem; background-color: rgba(255, 105, 180, 0.2); padding: 4px 8px; border-radius: 9999px;">Soil Science</span>
+                                <span style="font-size: 0.75rem; background-color: rgba(255, 105, 180, 0.2); padding: 4px 8px; border-radius: 9999px;">Sustainable Practices</span>
+                                <span style="font-size: 0.75rem; background-color: rgba(255, 105, 180, 0.2); padding: 4px 8px; border-radius: 9999px;">Microbiology</span>
+                            </div>
+                            
+                            <a href="#" style="color: #ff69b4; text-decoration: none; font-size: 0.875rem;" class="project-link" data-demo="sosa">Run Demo</a>
+                        </div>
+                        
+                        <!-- Reforestation Data Analysis -->
+                        <div class="project-card">
+                            <h3 style="font-size: 1.25rem; color: #ff3366; margin-bottom: 8px;">Reforestation Data Analysis</h3>
+                            <p style="font-size: 0.875rem; color: #ffffff; margin-bottom: 16px;">Analyzed growth patterns and survival rates of native species in reforestation projects, optimizing planting strategies.</p>
+                            
+                            <div style="display: flex; gap: 8px; margin-bottom: 16px; flex-wrap: wrap;">
+                                <span style="font-size: 0.75rem; background-color: rgba(255, 105, 180, 0.2); padding: 4px 8px; border-radius: 9999px;">Environmental Science</span>
+                                <span style="font-size: 0.75rem; background-color: rgba(255, 105, 180, 0.2); padding: 4px 8px; border-radius: 9999px;">Statistical Analysis</span>
+                                <span style="font-size: 0.75rem; background-color: rgba(255, 105, 180, 0.2); padding: 4px 8px; border-radius: 9999px;">Field Research</span>
+                            </div>
+                            
+                            <a href="#" style="color: #ff69b4; text-decoration: none; font-size: 0.875rem;" class="project-link" data-demo="reforestation">View Data</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div style="margin-top: 24px;">
+                    <p style="color: #ff69b4; margin-bottom: 8px;">Enter a command to navigate:</p>
+                    <div style="display: flex;">
+                        <span style="color: #ff3366; margin-right: 8px;">$</span>
+                        <input 
+                            type="text" 
+                            class="command-input" 
+                            placeholder="Try: goto quantum, demo gutmate..."
+                        />
+                    </div>
+                </div>
+                
+                <div class="nav-controls">
+                    <button class="nav-btn" data-goto="skills">Skills</button>
+                    <button class="nav-btn" data-goto="quantum">Quantum</button>
+                </div>
+            </div>
+
+            <!-- Quantum Section -->
+            <div class="carousel-slide" id="quantum">
+                <h2 class="section-title">Quantum Theories & Philosophies</h2>
+                
+                <div class="quantum-text">
+                    <p class="mb-6">Exploring the quantum nature of biological systems and consciousness...</p>
+                    
+                    <!-- Quantum Content -->
+                    <div style="display: grid; grid-template-columns: 1fr; gap: 24px;">
+                        <!-- Quantum Biology -->
+                        <div style="border: 1px solid #ff69b4; border-radius: 8px; padding: 20px; background-color: rgba(255, 105, 180, 0.05);">
+                            <h3 style="font-size: 1.25rem; color: #ff3366; margin-bottom: 12px;">Quantum Biology</h3>
+                            
+                            <p style="margin-bottom: 16px; font-size: 0.875rem;">My research explores how quantum mechanical phenomena may influence biological processes at the cellular and molecular levels.</p>
+                            
+                            <div class="code-display">
+                                <code style="font-size: 0.75rem;">
+                                    <span style="color: #ff69b4;">class</span> <span style="color: #4ade80;">QuantumBiologyTheory</span> {<br />
+                                    &nbsp;&nbsp;<span style="color: #ff69b4;">constructor</span>() {<br />
+                                    &nbsp;&nbsp;&nbsp;&nbsp;this.quantumCoherence = <span style="color: #3b82f6;">true</span>;<br />
+                                    &nbsp;&nbsp;&nbsp;&nbsp;this.entanglementLevel = <span style="color: #eab308;">0.73</span>;<br />
+                                    &nbsp;&nbsp;&nbsp;&nbsp;this.superpositionStates = [<span style="color: #eab308;">'DNA'</span>, <span style="color: #eab308;">'RNA'</span>, <span style="color: #eab308;">'Proteins'</span>];<br />
+                                    &nbsp;&nbsp;}<br />
+                                    &nbsp;&nbsp;<br />
+                                    &nbsp;&nbsp;<span style="color: #ff69b4;">studyPhotosynthesis</span>() {<br />
+                                    &nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #4ade80;">// Quantum coherence in energy transfer</span><br />
+                                    &nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #60a5fa;">return</span> <span style="color: #eab308;">'Quantum tunneling enables efficient energy capture'</span>;<br />
+                                    &nbsp;&nbsp;}<br />
+                                    }
+                                </code>
+                            </div>
+                            
+                            <p style="font-size: 0.875rem; margin-bottom: 12px; margin-top: 12px;">Key research areas include:</p>
+                            <ul style="list-style-type: disc; padding-left: 20px; font-size: 0.875rem; margin-top: 8px; margin-bottom: 16px;">
+                                <li style="margin-bottom: 4px;">Quantum coherence in photosynthesis</li>
+                                <li style="margin-bottom: 4px;">Quantum tunneling in enzyme activity</li>
+                                <li style="margin-bottom: 4px;">Entanglement in DNA mutation and repair</li>
+                                <li>Quantum effects in olfaction and magnetoreception</li>
+                            </ul>
+                            
+                            <div style="text-align: right;">
+                                <a href="#" style="color: #ff69b4; text-decoration: none; font-size: 0.875rem;" class="quantum-explore" data-concept="biology">Explore Further →</a>
+                            </div>
+                        </div>
+                        
+                        <!-- Quantum Consciousness -->
+                        <div style="border: 1px solid #ff69b4; border-radius: 8px; padding: 20px; background-color: rgba(255, 105, 180, 0.05);">
+                            <h3 style="font-size: 1.25rem; color: #ff3366; margin-bottom: 12px;">Quantum Consciousness</h3>
+                            
+                            <p style="margin-bottom: 16px; font-size: 0.875rem;">I'm exploring theoretical frameworks connecting quantum mechanics to neurological processes and consciousness emergence.</p>
+                            
+                            <div style="display: flex; align-items: center; gap: 16px; padding: 16px; background-color: rgba(255, 105, 180, 0.1); border-radius: 8px; margin-bottom: 16px;">
+                                <div style="width: 64px; height: 64px; border-radius: 9999px; background-color: rgba(255, 105, 180, 0.3); display: flex; align-items: center; justify-content: center;">
+                                    <div style="width: 40px; height: 40px; border-radius: 9999px; background-color: rgba(255, 105, 180, 0.5); display: flex; align-items: center; justify-content: center;">
+                                        <div style="width: 20px; height: 20px; border-radius: 9999px; background-color: #ff69b4;"></div>
+                                    </div>
+                                </div>
+                                
+                                <div style="flex: 1;">
+                                    <p style="font-size: 0.875rem;">"The observer effect in quantum mechanics may have parallels in consciousness, where observation influences neural activity patterns."</p>
+                                </div>
+                            </div>
+                            
+                            <p style="font-size: 0.875rem; margin-bottom: 12px;">Research hypotheses:</p>
+                            <ul style="list-style-type: disc; padding-left: 20px; font-size: 0.875rem; margin-top: 8px; margin-bottom: 16px;">
+                                <li style="margin-bottom: 4px;">Microtubules in neurons may utilize quantum computing principles</li>
+                                <li style="margin-bottom: 4px;">Consciousness as a quantum field phenomenon</li>
+                                <li style="margin-bottom: 4px;">Entanglement between neural networks</li>
+                                <li>Quantum coherence in cognitive processes</li>
+                            </ul>
+                            
+                            <div style="text-align: right;">
+                                <a href="#" style="color: #ff69b4; text-decoration: none; font-size: 0.875rem;" class="quantum-explore" data-concept="consciousness">Explore Further →</a>
+                            </div>
+                        </div>
+                        
+                        <!-- Quantum Healing -->
+                        <div style="border: 1px solid #ff69b4; border-radius: 8px; padding: 20px; background-color: rgba(255, 105, 180, 0.05);">
+                            <h3 style="font-size: 1.25rem; color: #ff3366; margin-bottom: 12px;">Quantum Healing Practices</h3>
+                            
+                            <p style="margin-bottom: 16px; font-size: 0.875rem;">Integrating quantum principles with holistic healing approaches to develop novel therapeutic methodologies.</p>
+                            
+                            <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; margin-bottom: 16px;">
+                                <div style="border: 1px solid #ff69b4; border-radius: 4px; padding: 12px; text-align: center;">
+                                    <div style="width: 32px; height: 32px; border-radius: 9999px; background-color: rgba(255, 105, 180, 0.3); margin: 0 auto 8px auto;"></div>
+                                    <p style="font-size: 0.75rem;">Intention Fields</p>
+                                </div>
+                                
+                                <div style="border: 1px solid #ff69b4; border-radius: 4px; padding: 12px; text-align: center;">
+                                    <div style="width: 32px; height: 32px; border-radius: 9999px; background-color: rgba(255, 105, 180, 0.3); margin: 0 auto 8px auto;"></div>
+                                    <p style="font-size: 0.75rem;">Coherence Building</p>
+                                </div>
+                                
+                                <div style="border: 1px solid #ff69b4; border-radius: 4px; padding: 12px; text-align: center;">
+                                    <div style="width: 32px; height: 32px; border-radius: 9999px; background-color: rgba(255, 105, 180, 0.3); margin: 0 auto 8px auto;"></div>
+                                    <p style="font-size: 0.75rem;">Biofield Resonance</p>
+                                </div>
+                            </div>
+                            
+                            <p style="font-size: 0.875rem;">My approach combines empirical evidence with theoretical quantum models to develop practical applications in wellness therapies and healing modalities.</p>
+                            
+                            <div style="text-align: right; margin-top: 16px;">
+                                <a href="#" style="color: #ff69b4; text-decoration: none; font-size: 0.875rem;" class="quantum-explore" data-concept="healing">Explore Further →</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div style="margin-top: 24px;">
+                    <p style="color: #ff69b4; margin-bottom: 8px;">Enter a command to navigate:</p>
+                    <div style="display: flex;">
+                        <span style="color: #ff3366; margin-right: 8px;">$</span>
+                        <input 
+                            type="text" 
+                            class="command-input" 
+                            placeholder="Try: goto connect, quantum consciousness..."
+                        />
+                    </div>
+                </div>
+                
+                <div class="nav-controls">
+                    <button class="nav-btn" data-goto="projects">Projects</button>
+                    <button class="nav-btn" data-goto="connect">Connect</button>
+                </div>
+            </div>
+
+            <!-- Connect Section -->
+            <div class="carousel-slide" id="connect">
+                <h2 class="section-title">Quantum Entanglement</h2>
+                
+                <div class="quantum-text">
+                    <p class="mb-6">Establish a quantum connection with Élodi Vedha...</p>
+                    
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 32px;">
+                        <!-- Contact Form -->
+                        <div class="contact-form">
+                            <h3 style="font-size: 1.25rem; color: #ff3366; margin-bottom: 16px;">Transmission Protocol</h3>
+                            
+                            <form>
+                                <div style="margin-bottom: 16px;">
+                                    <label style="display: block; color: #ff69b4; margin-bottom: 8px;">Your Identifier:</label>
+                                    <input type="text" class="form-input" placeholder="Enter your name" />
+                                </div>
+                                
+                                <div style="margin-bottom: 16px;">
+                                    <label style="display: block; color: #ff69b4; margin-bottom: 8px;">Quantum Address:</label>
+                                    <input type="email" class="form-input" placeholder="Enter your email" />
+                                </div>
+                                
+                                <div style="margin-bottom: 16px;">
+                                    <label style="display: block; color: #ff69b4; margin-bottom: 8px;">Communication Subject:</label>
+                                    <input type="text" class="form-input" placeholder="Enter subject" />
+                                </div>
+                                
+                                <div style="margin-bottom: 16px;">
+                                    <label style="display: block; color: #ff69b4; margin-bottom: 8px;">Quantum Message:</label>
+                                    <textarea class="form-input" style="height: 128px;" placeholder="Enter your message"></textarea>
+                                </div>
+                                
+                                <button 
+                                    type="button" 
+                                    style="width: 100%; background-color: #ff69b4; color: #000000; padding: 8px 0; border-radius: 4px; border: none; cursor: pointer; transition: all 0.3s ease;"
+                                    id="send-message-btn"
+                                >
+                                    Initiate Transmission
+                                </button>
+                            </form>
+                        </div>
+                        
+                        <!-- Social Links and Info -->
+                        <div>
+                            <div style="border: 1px solid #ff69b4; border-radius: 8px; padding: 20px; background-color: rgba(255, 105, 180, 0.05); margin-bottom: 24px;">
+                                <h3 style="font-size: 1.25rem; color: #ff3366; margin-bottom: 16px;">Quantum Coordinates</h3>
+                                
+                                <div style="display: grid; grid-template-columns: 1fr; gap: 16px;">
+                                    <div style="display: flex; align-items: center; gap: 12px;">
+                                        <div style="width: 40px; height: 40px; border-radius: 9999px; background-color: rgba(255, 105, 180, 0.2); display: flex; align-items: center; justify-content: center;">
+                                            <svg xmlns="http://www.w3.org/2000/svg" style="width: 20px; height: 20px; color: #ff69b4;" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                                            </svg>
+                                        </div>
+                                        <div>
+                                            <h4 style="color: #ff69b4; font-size: 0.875rem;">Email Frequency</h4>
+                                            <p style="color: #ffffff; font-size: 0.875rem;">elodi.vedha@quantum.bio</p>
+                                        </div>
+                                    </div>
+                                    
+                                    <div style="display: flex; align-items: center; gap: 12px;">
+                                        <div style="width: 40px; height: 40px; border-radius: 9999px; background-color: rgba(255, 105, 180, 0.2); display: flex; align-items: center; justify-content: center;">
+                                            <svg xmlns="http://www.w3.org/2000/svg" style="width: 20px; height: 20px; color: #ff69b4;" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                                            </svg>
+                                        </div>
+                                        <div>
+                                            <h4 style="color: #ff69b4; font-size: 0.875rem;">Spatial Coordinates</h4>
+                                            <p style="color: #ffffff; font-size: 0.875rem;">San Francisco Quantum Lab</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div style="border: 1px solid #ff69b4; border-radius: 8px; padding: 20px; background-color: rgba(255, 105, 180, 0.05);">
+                                <h3 style="font-size: 1.25rem; color: #ff3366; margin-bottom: 16px;">Quantum Network</h3>
+                                
+                                <div class="social-links">
+                                    <a href="#" class="social-link">LinkedIn</a>
+                                    <a href="#" class="social-link">ResearchGate</a>
+                                    <a href="#" class="social-link">GitHub</a>
+                                    <a href="#" class="social-link">ORCID</a>
+                                </div>
+                                
+                                <div class="quantum-diagram" style="height: 192px; border: 1px solid #ff69b4; border-radius: 8px; position: relative; overflow: hidden; margin-top: 20px;" id="connection-diagram">
+                                    <!-- Generated dynamically by JavaScript -->
+                                </div>
+                                
+                                <p style="font-size: 0.75rem; margin-top: 12px; text-align: center; color: rgba(255, 255, 255, 0.7);">Entanglement field visualization</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div style="margin-top: 24px;">
+                    <p style="color: #ff69b4; margin-bottom: 8px;">Enter a command to navigate:</p>
+                    <div style="display: flex;">
+                        <span style="color: #ff3366; margin-right: 8px;">$</span>
+                        <input 
+                            type="text" 
+                            class="command-input" 
+                            placeholder="Try: goto intro, help..."
+                        />
+                    </div>
+                </div>
+                
+                <div class="nav-controls">
+                    <button class="nav-btn" data-goto="quantum">Quantum</button>
+                    <button class="nav-btn" data-goto="intro">Intro</button>
+                </div>
+            </div>
+
+            <!-- Help Section -->
+            <div class="carousel-slide" id="help">
+                <h2 class="section-title">Quantum Terminal Help</h2>
+                
+                <div class="quantum-text">
+                    <p class="mb-6">Welcome to the Quantum Terminal System. Here are available commands and navigation options:</p>
+                    
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 24px;">
+                        <!-- Navigation Commands -->
+                        <div style="border: 1px solid #ff69b4; border-radius: 8px; padding: 20px; background-color: rgba(255, 105, 180, 0.05);">
+                            <h3 style="font-size: 1.25rem; color: #ff3366; margin-bottom: 16px;">Navigation Commands</h3>
+                            
+                            <div class="code-display">
+                                <code style="font-size: 0.75rem;">
+                                    <span style="color: #4ade80;">// Basic Navigation</span><br />
+                                    <span style="color: #ff69b4;">help</span> - Display this help information<br />
+                                    <span style="color: #ff69b4;">next</span> - Go to next section<br />
+                                    <span style="color: #ff69b4;">prev</span> - Go to previous section<br />
+                                    <br />
+                                    <span style="color: #4ade80;">// Direct Navigation</span><br />
+                                    <span style="color: #ff69b4;">goto intro</span> - Go to introduction<br />
+                                    <span style="color: #ff69b4;">goto experience</span> - View experience timeline<br />
+                                    <span style="color: #ff69b4;">goto skills</span> - Explore skills and abilities<br />
+                                    <span style="color: #ff69b4;">goto projects</span> - View research projects<br />
+                                    <span style="color: #ff69b4;">goto quantum</span> - Explore quantum theories<br />
+                                    <span style="color: #ff69b4;">goto connect</span> - Initiate contact
+                                </code>
+                            </div>
+                        </div>
+                        
+                        <!-- Special Commands -->
+                        <div style="border: 1px solid #ff69b4; border-radius: 8px; padding: 20px; background-color: rgba(255, 105, 180, 0.05);">
+                            <h3 style="font-size: 1.25rem; color: #ff3366; margin-bottom: 16px;">Special Commands</h3>
+                            
+                            <div class="code-display">
+                                <code style="font-size: 0.75rem;">
+                                    <span style="color: #4ade80;">// Demo Commands</span><br />
+                                    <span style="color: #ff69b4;">demo gutmate</span> - Run GutMate project demo<br />
+                                    <span style="color: #ff69b4;">demo sosa</span> - Run SOSA project demo<br />
+                                    <span style="color: #ff69b4;">demo reforestation</span> - View reforestation data<br />
+                                    <span style="color: #ff69b4;">demo music</span> - Toggle background music<br />
+                                    <br />
+                                    <span style="color: #4ade80;">// Quantum Exploration</span><br />
+                                    <span style="color: #ff69b4;">quantum consciousness</span> - Explore theories<br />
+                                    <span style="color: #ff69b4;">quantum field</span> - Visualize quantum field<br />
+                                    <span style="color: #ff69b4;">quantum entanglement</span> - Study entanglement
+                                </code>
+                            </div>
+                        </div>
+                        
+                        <!-- Interface Tips -->
+                        <div style="border: 1px solid #ff69b4; border-radius: 8px; padding: 20px; background-color: rgba(255, 105, 180, 0.05);">
+                            <h3 style="font-size: 1.25rem; color: #ff3366; margin-bottom: 16px;">Interface Tips</h3>
+                            
+                            <ul style="list-style-type: disc; padding-left: 20px; font-size: 0.875rem; margin-top: 8px;">
+                                <li style="margin-bottom: 12px;">Use <span style="color: #ff69b4;">navigation buttons</span> at the bottom of each screen to move between sections</li>
+                                <li style="margin-bottom: 12px;">The <span style="color: #ff69b4;">terminal input</span> accepts commands for direct navigation and special features</li>
+                                <li style="margin-bottom: 12px;"><span style="color: #ff69b4;">Click and interact</span> with elements like the quantum diagrams to observe dynamic responses</li>
+                                <li style="margin-bottom: 12px;">Use <span style="color: #ff69b4;">Tab key</span> for command autocompletion</li>
+                                <li>Press <span style="color: #ff69b4;">Up and Down arrows</span> to cycle through command history</li>
+                            </ul>
+                        </div>
+                        
+                        <!-- About This System -->
+                        <div style="border: 1px solid #ff69b4; border-radius: 8px; padding: 20px; background-color: rgba(255, 105, 180, 0.05);">
+                            <h3 style="font-size: 1.25rem; color: #ff3366; margin-bottom: 16px;">About This System</h3>
+                            
+                            <p style="font-size: 0.875rem; margin-bottom: 16px;">The Quantum Terminal is an interactive experience showcasing the professional portfolio of Élodi Vedha, quantum biologist and biotechnology researcher.</p>
+                            
+                            <div style="display: flex; justify-content: space-between; align-items: center; padding: 12px; background-color: rgba(255, 105, 180, 0.1); border-radius: 4px; margin-bottom: 8px;">
+                                <span style="font-size: 0.75rem;">System Version</span>
+                                <span style="font-size: 0.75rem;">v1.2.3</span>
+                            </div>
+                            
+                            <div style="display: flex; justify-content: space-between; align-items: center; padding: 12px; background-color: rgba(255, 105, 180, 0.1); border-radius: 4px; margin-bottom: 8px;">
+                                <span style="font-size: 0.75rem;">Quantum Engine</span>
+                                <span style="font-size: 0.75rem;">Coherence v3.7</span>
+                            </div>
+                            
+                            <div style="display: flex; justify-content: space-between; align-items: center; padding: 12px; background-color: rgba(255, 105, 180, 0.1); border-radius: 4px;">
+                                <span style="font-size: 0.75rem;">Last Update</span>
+                                <span style="font-size: 0.75rem;">Quantum Time</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div style="margin-top: 24px;">
+                    <p style="color: #ff69b4; margin-bottom: 8px;">Enter a command to navigate:</p>
+                    <div style="display: flex;">
+                        <span style="color: #ff3366; margin-right: 8px;">$</span>
+                        <input 
+                            type="text" 
+                            class="command-input" 
+                            placeholder="Try a command..."
+                        />
+                    </div>
+                </div>
+                
+                <div class="nav-controls">
+                    <button 
+                        class="nav-btn"
+                        id="toggle-music-btn"
+                    >
+                        Toggle Music
+                    </button>
+                    <button 
+                        class="nav-btn"
+                        data-goto="intro"
+                    >
+                        Back to Intro
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Quantum Particles Container -->
+        <div class="quantum-particles"></div>
+    </div>
+
+    <!-- Hidden audio player for background music -->
+    <audio id="background-music" preload="auto" loop>
+        <source src="https://www.dropbox.com/scl/fi/h35pl7uhyxvck260ew6bx/V-05-0M.mp3?raw=1" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
+
+    <!-- Include the quantum-simulation.js script -->
+    <script src="quantum-simulation.js"></script>
+</body>
+</html>
